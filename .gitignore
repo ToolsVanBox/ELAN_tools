@@ -2,3 +2,13 @@
 __pycache__/
 env/
 config.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+venv_3.6/
+ENV/
+env.bak/
+venv.bak/
