@@ -17,16 +17,17 @@ class Entity(object):
         if not existing_dir :
             current_dir.mkdir(exist_ok=True)
             current_dir.chmod(0o750)
-            os.chown(current_dir.resolve(),10619,12964) #sboymans:cuppen
+            #os.chown(current_dir.resolve(),10619,12964) #sboymans:cuppen
             id_file.touch()
             id_file.chmod(0o700)
-            os.chown(id_file.resolve(),10619,12964) #sboymans:cuppen
+            #os.chown(id_file.resolve(),10619,12964) #sboymans:cuppen
         elif existing_dir != current_dir:
             existing_dir.rename(current_dir)
 
         return current_dir
 
     def _getDir(self):
+        #print("_GETDIR")
         p = Path(self.work_root)
         for d in p.iterdir():
             id_file = Path(f'{d}/.ID-{self.id}')
