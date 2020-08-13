@@ -49,12 +49,23 @@ def updateSampleWithDataAnalysis( elan, data_analysis, project_name, study_names
             samplenames[sample_name] = data_analysis
     updateSamples( elan, samplenames, "Data Analysis" )
 
+def updateSampleWithSurfdrive( elan, data_analysis, project_name, study_names, sample_names ):
+    samplenames = {}
+    if study_names:
+        for study_name in study_names:
+            samples = elan.get_samples_by_study_name( study_name )
+            for sample in samples:
+                samplenames[sample['name']] = data_analysis
+    if sample_names:
+        for sample_name in sample_names:
+            samplenames[sample_name] = data_analysis
+    updateSamples( elan, samplenames, "Surfdrive" )
 
 def run(elan, args):
-    if not ( args.raw or args.processed or args.analysis or args.backup ):
-        sys.exit("No action requested, add --raw, --processed, --analysis and/or --backup")
-    if (args.analysis and not ( args.project and (args.study or args.sample))):
-        sys.exit("No action requested, add --project and --study or --sample together with --analysis")
+    if not ( args.raw or args.processed or args.analysis or args.backup or args.surfdrive):
+        sys.exit("No action requested, add --raw, --processed, --analysis, --surfdrive and/or --backup")
+    if ((args.analysis or args.surfdrive) and not ( args.project and (args.study or args.sample))):
+        sys.exit("No action requested, add --project and --study or --sample together with --analysis or --surfdrive")
     if args.raw:
         updateSampleWithRawData( elan, args.raw )
     if args.processed:
@@ -69,5 +80,13 @@ def run(elan, args):
         if args.sample:
             args.sample = list( map(lambda x: ' '.join(x), args.sample))
         updateSampleWithDataAnalysis( elan, args.analysis, args.project, args.study, args.sample )
+    if args.surfdrive:
+        if args.project:
+            args.project = ' '.join(args.project)
+        if args.study:
+            args.study = list( map(lambda x: ' '.join(x), args.study))
+        if args.sample:
+            args.sample = list( map(lambda x: ' '.join(x), args.sample))
+        updateSampleWithSurfdrive( elan, args.surfdrive, args.project, args.study, args.sample )
     #updateSample(elan, sample_type_name)
     # buildDirs(elan,project_workdir)
