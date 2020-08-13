@@ -2,7 +2,7 @@ import sys
 import argparse
 import daemons
 import requests
-from config import elan_key,elan_uri,project_workdir,project_backup,admin_mail
+from config import elan_key,elan_uri
 from elan_objects import Elan
 #Daemons
 def updateSamplesInElab(args):
