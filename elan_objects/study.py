@@ -17,7 +17,7 @@ class Study(Entity):
             new_dir = Path(f'{study_dir}/{d}')
             new_dir.mkdir(exist_ok=True)
             new_dir.chmod(0o770)
-            os.chown(new_dir.resolve(),10619,12964)#sboymans:cuppen
+            #os.chown(new_dir.resolve(),10619,12964)#sboymans:cuppen
 
         # backup_dir = Path(f'{study_dir}/backup')
         # raw_dir = Path(f'{study_dir}/raw')

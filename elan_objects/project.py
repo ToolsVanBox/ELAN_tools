@@ -10,11 +10,11 @@ class Project(Entity):
         self.name = self.name.strip().replace('/','-')
         self.name = self.name.strip().replace(' ','_')
 
-    # def createDir(self):
-    #     project_dir = super(Project, self).createDir()
-    #     project_dir.chmod(0o750)
-    #
-    #     return project_dir
+    def createDir(self):
+        project_dir = super(Project, self).createDir()
+        project_dir.chmod(0o750)
+
+        return project_dir
 
 # ProjectLarge {
 # groupName (string, optional),
