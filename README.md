@@ -65,3 +65,26 @@ Note; Study and/or sample can be used multiple times.
 >  python elan_tools.py update sample --surfdrive ~/surfdrive/path/to/folder --project <PROJECT_NAME> ( --study <STUDY_NAME> or --sample <SAMPLE_NAME> ) 
 
 ```
+## Cronjob
+Examples of different cronjobs:
+Create/edit (your) crontab file
+```
+crontab -e
+```
+### Raw data
+Check every day at 0:00 (`0 0 * * *`) in the raw data folder
+```
+0 0 * * * . /hpc/pmc_vanboxtel/tools/ELAN_tools/venv_3.6/bin/activate && python /hpc/pmc_vanboxtel/tools/ELAN_tools/elan_tools.py update sample --raw /hpc/pmc_vanboxtel/raw_data --force >> /hpc/pmc_vanboxtel/raw_data/elan_tools.log
+```
+
+### Processed data
+Check every day at 0:00 (`0 0 * * *`)  in the processed folder for a mapping folder less than a day old (`-mtime -1`)
+```
+0 0 * * * find /hpc/pmc_vanboxtel/processed/ -type d -mtime -1 -name "mapping" | xargs -I {} sh -c ". /hpc/pmc_vanboxtel/tools/ELAN_tools/venv_3.6/bin/activate && python /hpc/pmc_vanboxtel/tools/ELAN_tools/elan_tools.py update sample --processed {} --force >> /hpc/pmc_vanboxtel/processed/elan_tools.log"
+```
+
+### Data backup
+Check every day at 0:00 (`0 0 * * *`)  in the backup folder for a mapping folder less than a day old (`-mtime -1`)
+```
+0 0 * * * find /data/isi/p/pmc_research/pmc_vanboxtel/general/bams/ -type d -mtime -1 -name "mapping" | xargs -I {} sh -c ". /hpc/pmc_vanboxtel/tools/ELAN_tools/venv_3.6/bin/activate && python /hpc/pmc_vanboxtel/tools/ELAN_tools/elan_tools.py update sample --backup {} --force >> /data/isi/p/pmc_research/pmc_vanboxtel/general/bams/elan_tools.log"
+```
