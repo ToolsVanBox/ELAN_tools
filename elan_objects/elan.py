@@ -50,12 +50,13 @@ class Elan(object):
                 timeout=TIMEOUT
             )
             r.raise_for_status()
+            #print( r.status_code()
         except HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')
         except Exception as err:
             print(f'Other error occurred: {err}')
-        #else:
-        #    return
+        else:
+            return r.status_code
 
     def get(self, uri, params=dict()):
 
@@ -115,7 +116,7 @@ class Elan(object):
     def get_samples_for_names(self, samplenames=None):
         parts = ['api', self.version, 'samples', 'forNames']
         url = urljoin(self.baseuri, '/'.join(parts))
-        params = {}
+        params = { '$expand': 'meta' }
         samples = []
         for name in samplenames:
             if name:
@@ -124,7 +125,6 @@ class Elan(object):
             for s in r['data']:
                 samples.append(s)
         return( samples )
-
 
     def get_samples_by_sample_type_id(self, sample_type_id=None):
         parts = ['api', self.version, 'samples']
@@ -164,7 +164,8 @@ class Elan(object):
     def put_meta(self, sample_id=None, params=None):
         parts = ['api', self.version, 'samples', str(sample_id), "meta"]
         url = urljoin(self.baseuri, '/'.join(parts))
-        self.put(url, params)
+        r = self.put(url, params)
+        return r
 
     def patch_sample(self, sample_id=None):
         parts = ['api', self.version, 'samples', str(sample_id)]
