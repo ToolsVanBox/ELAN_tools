@@ -1,6 +1,7 @@
 from pathlib import Path
 import sys
 from datetime import datetime
+import getpass
 
 def updateSamples( elan, samplenames, key, force ):
     elan_samples = elan.get_samples_for_names( samplenames.keys() )
@@ -16,9 +17,10 @@ def updateSamples( elan, samplenames, key, force ):
         meta_params['value'] = samplenames[sample['name']]
         response = elan.put_meta(sample['sampleID'], meta_params)
         if response == 200:
+            username = getpass.getuser()
             project_id = next((item['value'] for item in sample['meta'] if item['key'] == 'Project ID'))
             study_name = next((item['value'] for item in sample['meta'] if item['key'] == 'Study Name'))
-            print( "".join([str(datetime.now()),"\tUPDATE SAMPLE\tSample=", sample['name'], ";Project=", project_id, ";Study=",study_name,";",meta_params['key'],"=",meta_params['value']]) )
+            print( "".join([str(datetime.now()),"\tUPDATE SAMPLE\tUser=",username,";Sample=", sample['name'], ";Project=", project_id, ";Study=",study_name,";",meta_params['key'],"=",meta_params['value']]) )
 
 def updateSampleWithRawData( elan, raw_data, force ):
     samplenames = {}
