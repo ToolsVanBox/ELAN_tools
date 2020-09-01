@@ -28,6 +28,7 @@ if __name__ == "__main__":
     parser_update_sample.add_argument('--study', action='append', nargs='+', help='Update samples within this study with data analysis and/or surfdrive information')
     parser_update_sample.add_argument('--sample', action='append', nargs='+', help='Update samples with this name with data analysis and/or surfdrive information')
     parser_update_sample.add_argument('--force', action='store_true', help='Forcing sample update, ignore existing sample information')
+    parser_update_sample.add_argument('--add', action='store_true', help='Add data analysis and/or surfdrive information to samples')
     parser_update_sample.set_defaults(func=updateSamplesInElab)
 
     args = parser.parse_args()
