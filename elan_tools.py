@@ -8,6 +8,15 @@ from elan_objects import Elan
 def updateSamplesInElab(args):
     daemons.update_samples_in_elab.run( elan, args )
 
+def getStudiesFromElab(args):
+    daemons.get_studies_from_elab.run( elan, args )
+
+def getProjectsFromElab(args):
+    daemons.get_projects_from_elab.run( elan, args )
+
+def updateMetaInElab(args):
+    daemons.update_meta_in_elab.run( elan, args )
+
 if __name__ == "__main__":
 
     elan = Elan(elan_uri, elan_key)
@@ -15,8 +24,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     subparser = parser.add_subparsers()
 
-    parser_update = subparser.add_parser('update', help='Update scripts: sample')
+    parser_update = subparser.add_parser('update', help='Update scripts: sample, meta')
+    parser_get = subparser.add_parser('get', help='Get scripts: study, project')
     subparser_update = parser_update.add_subparsers()
+    subparser_get = parser_get.add_subparsers()
 
     parser_update_sample = subparser_update.add_parser('sample', help='Update samples with data information in the elabjournal')
     parser_update_sample.add_argument('--raw', help='Update samples with raw data information')
@@ -30,6 +41,19 @@ if __name__ == "__main__":
     parser_update_sample.add_argument('--force', action='store_true', help='Forcing sample update, ignore existing sample information')
     parser_update_sample.add_argument('--add', action='store_true', help='Add data analysis and/or surfdrive information to samples')
     parser_update_sample.set_defaults(func=updateSamplesInElab)
+
+    parser_update_meta = subparser_update.add_parser('meta', help='Update sample type meta fieds properties')
+    parser_update_meta.add_argument('--sampletype', nargs='+', default='Sample For WGS', help='Updata meta fields for this sample type')
+    parser_update_meta.add_argument('--metadata',nargs='+', help='Update sample type meta fields with this metadata file')
+    parser_update_meta.set_defaults(func=updateMetaInElab)
+
+    parser_get_study = subparser_get.add_parser('study', help='Get studies from the elabjournal')
+    parser_get_study.add_argument('--project', nargs='+', help='Get studies within this project from the elabjournal')
+    parser_get_study.set_defaults(func=getStudiesFromElab)
+
+    parser_get_project = subparser_get.add_parser('project', help='Get projects from the elabjournal')
+    parser_get_project.set_defaults(func=getProjectsFromElab)
+
 
     args = parser.parse_args()
     try:

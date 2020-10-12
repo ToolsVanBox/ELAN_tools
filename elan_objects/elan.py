@@ -21,11 +21,11 @@ class Elan(object):
         self.request_session.mount('http://', self.adapter)
 
     def patch(self, uri, params=dict()):
-
         try:
             r = self.request_session.patch(uri, json=params,
                 headers={
                     'Content-Type' : 'application/json',
+                    'X-Requested-With' : 'Swagger',
                     'Authorization' : self.key
                 },
                 timeout=TIMEOUT
@@ -35,7 +35,7 @@ class Elan(object):
             print(f'HTTP error occurred: {http_err}')
         except Exception as err:
             print(f'Other error occurred: {err}')
-        #else:
+        # else:
         #    return
 
     def put(self, uri, params=dict()):
@@ -78,19 +78,29 @@ class Elan(object):
             return r.json()
 
 
-    def get_projects(self, project_workdir):
+    def get_projects(self):
         parts = ['api', self.version, 'projects']
         url = urljoin(self.baseuri, '/'.join(parts))
         r = self.get(url)
         projects = []
         for p in r['data']:
-            projects.append(Project(p, project_workdir))
+            projects.append(p)
         return projects
 
-    def get_studies(self, project_dir,project_id=None, study_id=None):
+    def get_project_id( self, project_name ):
+        parts = ['api', self.version, 'projects']
+        url = urljoin(self.baseuri, '/'.join(parts))
+        r = self.get(url)
+        project_id = None
+        for p in r['data']:
+            if p['name'] == project_name:
+                project_id = p['projectID']
+        return project_id
+
+    def get_studies(self, project_id=None, study_id=None):
         parts = ['api', self.version, 'studies']
         url = urljoin(self.baseuri, '/'.join(parts))
-        params = {}
+        params = { '$expand': 'project' }
         if project_id:
             params['projectID'] = project_id
         if study_id:
@@ -99,7 +109,7 @@ class Elan(object):
         r = self.get(url, params)
         studies = []
         for s in r['data']:
-            studies.append(Study(s, project_dir))
+            studies.append(s)
         return studies
 
     def get_sampleTypeID(self, sample_type_name=None):
@@ -177,6 +187,11 @@ class Elan(object):
         url = urljoin(self.baseuri, '/'.join(parts))
         r = self.put(url, params)
         return r
+
+    def patch_meta( self, sample_type_id=None, sample_type_meta_id=None, params=None):
+        parts = ['api', self.version, 'sampleTypes',str(sample_type_id),'meta',str(sample_type_meta_id)]
+        url = urljoin(self.baseuri, '/'.join(parts))
+        self.patch(url, params)
 
     def patch_sample(self, sample_id=None):
         parts = ['api', self.version, 'samples', str(sample_id)]
