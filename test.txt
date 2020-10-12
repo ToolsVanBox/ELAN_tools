@@ -1,0 +1,10 @@
+Study Name	Trash study
+Study Name	Nanopore project
+Study Name	CRISPR_DNA_repair
+Study Name	Healthy_BM_seq
+Study Name	CRISPR_DNA_repair
+Study Name	FA_BM_seq
+Study Name	smMIP_test
+Study Name	Healthy_PBMC_seq
+Study Name	FA_BM_SEQ
+Study Name	TDG_MBD4_KO
