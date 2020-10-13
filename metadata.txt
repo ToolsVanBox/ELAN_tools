@@ -77,7 +77,6 @@ Sequencing	WES
 Sequencing	TARGET
 Institute	Princess Maxima Centrum
 Institute	UMC Utrecht
-Subject ID	AHH1
 Subject Type	Healthy bone marrow donor
 Subject Type	First AML/ALL bone marrow
 Subject Type	Second AML bone marrow
