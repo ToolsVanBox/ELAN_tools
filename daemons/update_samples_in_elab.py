@@ -46,7 +46,7 @@ def updateSampleWithProcessedData( elan, processed_data, force, add ):
         samplenames[samplename] = str(Path(bam).parent)
     updateSamples( elan, samplenames, "Processed Data", force, add )
 
-def updateSampleWithDataBackup( elan, data_backup, force ):
+def updateSampleWithDataBackup( elan, data_backup, force, add ):
     samplenames = {}
     for bam in Path(data_backup).rglob('*dedup.bam'):
         filename = Path(bam).name
