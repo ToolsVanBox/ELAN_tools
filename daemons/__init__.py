@@ -1,4 +1,5 @@
 import daemons.update_samples_in_elab
 import daemons.get_studies_from_elab
 import daemons.get_projects_from_elab
+import daemons.get_sampletype_from_elab
 import daemons.update_meta_in_elab

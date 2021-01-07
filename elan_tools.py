@@ -14,6 +14,9 @@ def getStudiesFromElab(args):
 def getProjectsFromElab(args):
     daemons.get_projects_from_elab.run( elan, args )
 
+def getSampleTypeFromElab(args):
+    daemons.get_sampletype_from_elab.run( elan, args )
+
 def updateMetaInElab(args):
     daemons.update_meta_in_elab.run( elan, args )
 
@@ -25,7 +28,7 @@ if __name__ == "__main__":
     subparser = parser.add_subparsers()
 
     parser_update = subparser.add_parser('update', help='Update scripts: sample, meta')
-    parser_get = subparser.add_parser('get', help='Get scripts: study, project')
+    parser_get = subparser.add_parser('get', help='Get scripts: study, project, sampletype')
     subparser_update = parser_update.add_subparsers()
     subparser_get = parser_get.add_subparsers()
 
@@ -53,6 +56,10 @@ if __name__ == "__main__":
 
     parser_get_project = subparser_get.add_parser('project', help='Get projects from the elabjournal')
     parser_get_project.set_defaults(func=getProjectsFromElab)
+
+    parser_get_sampletype = subparser_get.add_parser('sampletype', help='Get sampletype from the elabjournal')
+    parser_get_sampletype.add_argument('--name', nargs='+', help='Get sampleType with this name from the elabjournal')
+    parser_get_sampletype.set_defaults(func=getSampleTypeFromElab)
 
 
     args = parser.parse_args()

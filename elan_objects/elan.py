@@ -160,6 +160,16 @@ class Elan(object):
                     samples.append(s)
         return( samples )
 
+    def get_meta_field_from_sample_type( self, sample_type_id=None):
+        parts = ['api', self.version, 'sampleTypes',str(sample_type_id),"meta"]
+        url = urljoin(self.baseuri, '/'.join(parts))
+        params = {}
+        r = self.get(url, params)
+        meta_fields = []
+        for m in r['data']:
+            meta_fields.append(m)
+        return( meta_fields )
+
     def get_meta_field_from_sample_type_by_key( self, sample_type_id=None, key=None):
         parts = ['api', self.version, 'sampleTypes',str(sample_type_id),"meta"]
         url = urljoin(self.baseuri, '/'.join(parts))

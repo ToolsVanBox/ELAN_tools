@@ -15,6 +15,7 @@ def updateMetaField( elan, sample_type_name, metadata):
             meta_params['optionValues'] = metafield[0]['optionValues']
             if optionvalue not in meta_params['optionValues']:
                 meta_params['optionValues'].append(optionvalue)
+
             if metafield[0]['notes'] == ' ':
                 meta_params['notes'] = ''
             else:
