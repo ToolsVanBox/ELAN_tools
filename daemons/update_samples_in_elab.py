@@ -43,15 +43,16 @@ def updateSampleWithProcessedData( elan, processed_data, force, add ):
     for bam in Path(processed_data).rglob('*dedup.bam'):
         filename = Path(bam).name
         samplename = filename.split("_")[0]
-        samplenames[samplename] = str(Path(bam).parent)
+        samplenames[samplename] = bam
+        # str(Path(bam).parent)
     updateSamples( elan, samplenames, "Processed Data", force, add )
 
-def updateSampleWithDataBackup( elan, data_backup, force, add ):
+def updateSampleWithDataBackup( elan, bam, force, add ):
     samplenames = {}
-    for bam in Path(data_backup).rglob('*dedup.bam'):
-        filename = Path(bam).name
-        samplename = filename.split("_")[0]
-        samplenames[samplename] = str(Path(bam).parent)
+    filename = Path(bam).name
+    samplename = filename.split("_")[0]
+    samplenames[samplename] = bam
+    # str(Path(bam).parent)
     updateSamples( elan, samplenames, "Data Backup", force, add )
 
 def updateSampleWithDataAnalysis( elan, data_analysis, project_name, study_names, sample_names, force, add ):
