@@ -133,7 +133,8 @@ class Elan(object):
                 params['names'] = name
             r = self.get(url, params)
             for s in r['data']:
-                samples.append(s)
+                if s['sampleTypeID'] == 12731: # Sample For WGS
+                    samples.append(s)
         return( samples )
 
     def get_samples_by_sample_type_id(self, sample_type_id=None):
