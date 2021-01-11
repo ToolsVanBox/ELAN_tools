@@ -22,7 +22,7 @@ def updateSamples( elan, samplenames, key, force, add ):
             else:
                 continue
         else:
-            meta_params['value'] = samplenames[sample['name']]
+            meta_params['value'] = str(samplenames[sample['name']])
         response = elan.put_meta(sample['sampleID'], meta_params)
         if response == 200:
             username = getpass.getuser()

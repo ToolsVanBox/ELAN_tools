@@ -5,6 +5,8 @@ from urllib.parse import urlencode
 from elan_objects.project import Project
 from elan_objects.experiment import Experiment
 from elan_objects.study import Study
+from urllib.error import HTTPError
+
 TIMEOUT=20
 
 class Elan(object):
